@@ -1,26 +1,40 @@
 # Stock Trend Prediction System
 
-This project provides tools for analyzing historical stock data, visualizing trends, and identifying patterns. It focuses on visualization and pattern recognition rather than actual trading recommendations.
+A Flask-based web application for analyzing historical stock data, visualizing trends, and making informed investment decisions. The application provides an intuitive interface for stock analysis with interactive charts and technical indicators.
 
 ## Features
 
-- Interactive stock price visualization with candlestick charts
-- Technical indicators calculation (SMA, EMA, RSI)
-- Pattern recognition for identifying trends and consolidation periods
-- Stock summary statistics
-- Interactive HTML reports
+- Interactive web interface with modern, responsive design
+- Real-time stock data analysis and visualization
+- Interactive candlestick charts with technical indicators
+- Multiple timeframe analysis (1 month to 5 years)
+- Key statistics and performance metrics
+- Pattern recognition for identifying trends
+- User-friendly dashboard with stock selection
+- Responsive design for all devices
 
 ## Installation
 
-1. Clone this repository
-2. Install the required dependencies:
+1. Clone this repository:
+```bash
+git clone https://github.com/yourusername/Stock-Trend-Prediction.git
+cd Stock-Trend-Prediction
+```
+
+2. Create a virtual environment (recommended):
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
+
+3. Install the required dependencies:
 ```bash
 pip install -r requirements.txt
 ```
 
 ## Usage
 
-1. Make sure your stock data is in the `all_stocks.csv` file with the following columns:
+1. Ensure your stock data is in the `stocks.csv` file with the following columns:
    - Date
    - Symbol
    - Open
@@ -29,51 +43,74 @@ pip install -r requirements.txt
    - Close
    - Volume
 
-2. Run the analysis script:
+2. Run the Flask application:
 ```bash
-python src/analyze_stocks.py
+python app.py
 ```
 
-This will:
-- Analyze the first 5 stocks in the dataset
-- Generate interactive HTML visualizations in the `output` directory
-- Print summary statistics and identified patterns
-
-## Custom Analysis
-
-To analyze specific stocks or customize the analysis, you can modify the `analyze_stocks.py` script or use the `StockAnalyzer` class directly:
-
-```python
-from stock_analyzer import StockAnalyzer
-
-# Initialize analyzer
-analyzer = StockAnalyzer('path_to_your_csv')
-
-# Get stock summary
-summary = analyzer.get_stock_summary('AAPL')
-
-# Generate interactive plot
-fig = analyzer.plot_stock_trend('AAPL')
-
-# Identify patterns
-patterns = analyzer.identify_patterns('AAPL')
+3. Open your web browser and navigate to:
+```
+http://localhost:5000
 ```
 
-## Output
+## Features in Detail
 
-The system generates:
-1. Interactive HTML visualizations with:
-   - Candlestick charts
-   - Moving averages (20-day and 50-day SMA)
-   - RSI indicator
-2. Pattern recognition results
-3. Summary statistics including:
-   - Current price
-   - 52-week high/low
-   - Average volume
-   - Volatility
-   - Technical indicators
+### Dashboard
+- Interactive stock selection dropdown
+- Customizable analysis period
+- Real-time chart updates
+- Key statistics display
 
-## Note
+### Analysis Page
+- Detailed price analysis with candlestick charts
+- Technical indicators (SMA, EMA, RSI)
+- Volume analysis
+- Pattern recognition
+- Fullscreen chart view
+- Responsive design for all screen sizes
 
-This system is for educational and research purposes only. The analysis and patterns identified should not be used as financial advice or for actual trading decisions.
+### Technical Indicators
+- Simple Moving Average (SMA)
+- Exponential Moving Average (EMA)
+- Relative Strength Index (RSI)
+- Volume analysis
+- Trend identification
+
+## Project Structure
+
+```
+Stock-Trend-Prediction/
+├── app.py                 # Main Flask application
+├── requirements.txt       # Python dependencies
+├── stocks.csv            # Stock data file
+├── static/              # Static files (CSS, JS)
+└── templates/           # HTML templates
+    ├── base.html        # Base template
+    ├── index.html       # Landing page
+    ├── dashboard.html   # Dashboard page
+    └── analysis.html    # Analysis results page
+```
+
+## Dependencies
+
+- Flask: Web framework
+- Pandas: Data manipulation
+- Plotly: Interactive visualizations
+- Bootstrap: Frontend framework
+- Font Awesome: Icons
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Disclaimer
+
+This application is for educational and research purposes only. The analysis and patterns identified should not be used as financial advice or for actual trading decisions. Always consult with a qualified financial advisor before making investment decisions.
