@@ -125,39 +125,40 @@ def create_plot(df, ticker):
 stock_names = sorted(df['Name'].unique())
 
 @app.route('/')
-def landing():
+def index():
     return render_template('landing.html')
 
-@app.route('/dashboard')
-def dashboard():
-    return render_template('dashboard.html', stock_names=stock_names)
-
-@app.route('/analyze', methods=['POST'])
+@app.route('/analyze', methods=['GET', 'POST'])
 def analyze():
-    ticker = request.form['ticker']
-    period = request.form['period']
-    
-    # Filter data for the selected stock
-    stock_data = df[df['Name'] == ticker].copy()
-    
-    if stock_data.empty:
-        flash('No data found for the selected stock')
-        return redirect(url_for('dashboard'))
-    
-    # Add technical indicators
-    stock_data = add_technical_indicators(stock_data)
-    
-    # Create the plot
-    plot_div = create_plot(stock_data, ticker)
-    
-    # Calculate statistics
-    stats = calculate_statistics(stock_data)
-    
-    return render_template('dashboard.html', 
-                         plot_div=plot_div,
-                         ticker=ticker,
-                         stats=stats,
-                         stock_names=stock_names)
+    plot_div = None
+    stats = None
+    ticker = None
+    period = None
+    if request.method == 'POST':
+        ticker = request.form['ticker']
+        period = request.form['period']
+        stock_data = df[df['Name'] == ticker].copy()
+        if stock_data.empty:
+            flash('No data found for the selected stock')
+        else:
+            stock_data = add_technical_indicators(stock_data)
+            plot_div = create_plot(stock_data, ticker)
+            stats = calculate_statistics(stock_data)
+    return render_template('index.html', stock_names=stock_names, plot_div=plot_div, stats=stats, ticker=ticker, period=period)
+
+@app.route('/future', methods=['GET', 'POST'])
+def future_prediction():
+    if request.method == 'POST':
+        ticker = request.form['ticker']
+        days = int(request.form['days'])
+        # Placeholder: generate random future prices
+        last_price = df[df['Name'] == ticker]['close'].iloc[-1]
+        np.random.seed(42)
+        future_prices = [last_price + np.random.randn() for _ in range(days)]
+        dates = pd.date_range(start=pd.Timestamp.today(), periods=days)
+        prediction = list(zip(dates.strftime('%Y-%m-%d'), future_prices))
+        return render_template('future.html', stock_names=stock_names, prediction=prediction, ticker=ticker, days=days)
+    return render_template('future.html', stock_names=stock_names)
 
 def calculate_statistics(df):
     return {

@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="analysis-container">
-    <!-- Header Section -->
+    <!-- Header -->
     <div class="analysis-header">
         <div class="header-content">
             <h1>Analysis Results for {{ ticker }}</h1>
@@ -17,79 +17,77 @@
         </div>
     </div>
 
-    <!-- Main Content -->
-    <div class="analysis-content">
-        <!-- Statistics Section -->
-        <div class="stats-section">
-            <h2 class="section-title">Key Statistics</h2>
-            <div class="row g-4">
-                {% for key, value in stats.items() %}
-                <div class="col-md-4 col-sm-6">
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
-                        <div class="stat-content">
-                            <h5>{{ key }}</h5>
-                            <p class="mb-0">{{ value }}</p>
-                        </div>
+    <!-- Key Statistics -->
+    <div class="stats-section">
+        <h2 class="section-title">Key Statistics</h2>
+        <div class="row gy-4 gx-3">
+            {% for key, value in stats.items() %}
+            <div class="col-lg-4 col-md-6 col-12 d-flex">
+                <div class="stat-card w-100 h-100">
+                    <div class="stat-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h5>{{ key }}</h5>
+                        <p class="mb-0">{{ value }}</p>
                     </div>
                 </div>
-                {% endfor %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Price Chart -->
+    <div class="chart-section">
+        <div class="chart-header">
+            <h2 class="section-title">Price Analysis</h2>
+            <div class="chart-actions">
+                <button class="btn btn-sm btn-outline-primary" onclick="toggleFullscreen()">
+                    <i class="fas fa-expand me-1"></i>Fullscreen
+                </button>
             </div>
         </div>
-
-        <!-- Chart Section -->
-        <div class="chart-section">
-            <div class="chart-header">
-                <h2 class="section-title">Price Analysis</h2>
-                <div class="chart-actions">
-                    <button class="btn btn-sm btn-outline-primary" onclick="toggleFullscreen()">
-                        <i class="fas fa-expand me-1"></i>Fullscreen
-                    </button>
-                </div>
-            </div>
-            <div class="chart-wrapper">
-                <div class="chart-container" id="stock-chart">
-                    {{ plot_div | safe }}
-                </div>
+        <div class="chart-wrapper">
+            <script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+            <div class="chart-container" id="stock-chart">
+                {{ plot_div | safe }}
             </div>
         </div>
+    </div>
 
-        <!-- Additional Analysis Section -->
-        <div class="additional-analysis">
-            <h2 class="section-title">Additional Analysis</h2>
-            <div class="row g-4">
-                <div class="col-md-6">
-                    <div class="analysis-card">
-                        <div class="card-icon">
-                            <i class="fas fa-trend-up"></i>
-                        </div>
-                        <div class="card-content">
-                            <h3>Trend Analysis</h3>
-                            <p>Detailed analysis of price trends and patterns</p>
-                            <ul class="analysis-list">
-                                <li>Moving Averages</li>
-                                <li>Support/Resistance Levels</li>
-                                <li>Trend Indicators</li>
-                            </ul>
-                        </div>
+    <!-- Additional Analysis -->
+    <div class="additional-analysis">
+        <h2 class="section-title">Additional Analysis</h2>
+        <div class="row gy-4 gx-3">
+            <div class="col-md-6 col-12 d-flex">
+                <div class="analysis-card w-100 h-100">
+                    <div class="card-icon">
+                        <i class="fas fa-trend-up"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Trend Analysis</h3>
+                        <p>Detailed analysis of price trends and patterns</p>
+                        <ul class="analysis-list">
+                            <li>Moving Averages</li>
+                            <li>Support/Resistance Levels</li>
+                            <li>Trend Indicators</li>
+                        </ul>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="analysis-card">
-                        <div class="card-icon">
-                            <i class="fas fa-chart-bar"></i>
-                        </div>
-                        <div class="card-content">
-                            <h3>Volume Analysis</h3>
-                            <p>Analysis of trading volume and market activity</p>
-                            <ul class="analysis-list">
-                                <li>Volume Trends</li>
-                                <li>Market Depth</li>
-                                <li>Liquidity Analysis</li>
-                            </ul>
-                        </div>
+            </div>
+            <div class="col-md-6 col-12 d-flex">
+                <div class="analysis-card w-100 h-100">
+                    <div class="card-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Volume Analysis</h3>
+                        <p>Analysis of trading volume and market activity</p>
+                        <ul class="analysis-list">
+                            <li>Volume Trends</li>
+                            <li>Market Depth</li>
+                            <li>Liquidity Analysis</li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -97,120 +95,52 @@
     </div>
 </div>
 
+<!-- Reuse your existing styles and scripts from earlier -->
 <style>
-.analysis-container {
-    padding: 30px;
-    background-color: var(--background-color);
-    min-height: calc(100vh - 76px);
-    max-width: 100%;
-    overflow-x: hidden;
-}
-
-/* Header Styles */
-.analysis-header {
+/* Keep all your previous CSS here unchanged, except below updates */
+.stat-card, .analysis-card {
     display: flex;
-    justify-content: space-between;
+    flex-direction: row;
     align-items: center;
-    margin-bottom: 30px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid var(--border-color);
-}
-
-.header-content h1 {
-    color: var(--primary-color);
-    font-weight: 600;
-    margin: 0;
-    font-size: 2rem;
-}
-
-.header-subtitle {
-    color: var(--light-text);
-    margin: 5px 0 0;
-    font-size: 1rem;
-}
-
-/* Section Styles */
-.section-title {
-    color: var(--primary-color);
-    font-weight: 600;
-    margin-bottom: 20px;
-    font-size: 1.5rem;
-}
-
-/* Statistics Cards */
-.stats-section {
-    margin-bottom: 30px;
-}
-
-.stat-card {
-    background: var(--card-bg);
-    border-radius: 15px;
-    padding: 20px;
+    justify-content: flex-start;
     height: 100%;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-    border: 1px solid var(--border-color);
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.stat-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-}
-
-.stat-icon {
-    width: 50px;
-    height: 50px;
-    background: rgba(52, 152, 219, 0.1);
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--accent-color);
-    font-size: 1.2rem;
-}
-
-.stat-content h5 {
-    color: var(--light-text);
-    font-size: 0.9rem;
-    margin-bottom: 5px;
-    font-weight: 500;
-}
-
-.stat-content p {
-    color: var(--text-color);
-    font-size: 1.1rem;
-    font-weight: 600;
-    margin: 0;
-}
-
-/* Chart Section */
-.chart-section {
-    background: var(--card-bg);
-    border-radius: 15px;
-    padding: 25px;
-    margin-bottom: 30px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-    border: 1px solid var(--border-color);
     width: 100%;
-    max-width: 100%;
-    overflow: hidden;
+    flex: 1;
 }
 
-.chart-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    padding: 0 10px;
-    width: 100%;
+@media (max-width: 768px) {
+    .stat-card, .analysis-card {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 15px;
+    }
+
+    .card-icon, .stat-icon {
+        margin-bottom: 10px;
+    }
+
+    .chart-wrapper {
+        height: 350px;
+    }
+}
+
+@media (max-width: 576px) {
+    .stat-content h5, .card-content h3 {
+        font-size: 1rem;
+    }
+
+    .stat-content p, .card-content p {
+        font-size: 0.9rem;
+    }
+
+    .analysis-container {
+        padding: 15px;
+    }
 }
 
 .chart-wrapper {
     width: 100%;
-    height: 600px;
+    height: 500px;
     position: relative;
     background: var(--card-bg);
     border-radius: 10px;
@@ -218,7 +148,6 @@
     display: flex;
     flex-direction: column;
 }
-
 .chart-container {
     width: 100%;
     height: 100%;
@@ -226,194 +155,28 @@
     display: block;
     flex: 1;
 }
-
-.chart-container > div {
-    width: 100% !important;
-    height: 100% !important;
-    position: absolute !important;
-    top: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    bottom: 0 !important;
-    margin: 0 !important;
-    padding: 0 !important;
-}
-
-.chart-container .js-plotly-plot {
-    width: 100% !important;
-    height: 100% !important;
-    margin: 0 !important;
-    padding: 0 !important;
-}
-
-.chart-container .plot-container {
-    width: 100% !important;
-    height: 100% !important;
-    margin: 0 !important;
-    padding: 0 !important;
-}
-
+.chart-container > div,
+.chart-container .js-plotly-plot,
+.chart-container .plot-container,
 .chart-container .main-svg {
     width: 100% !important;
     height: 100% !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
 }
-
-/* Fullscreen styles */
-.chart-wrapper:fullscreen {
-    padding: 20px;
-    background: var(--card-bg);
-    width: 100vw;
-    height: 100vh;
-}
-
-.chart-wrapper:fullscreen .chart-container {
-    width: 100%;
-    height: 100%;
-}
-
-/* Additional Analysis Cards */
-.analysis-card {
-    background: var(--card-bg);
-    border-radius: 15px;
-    padding: 25px;
-    height: 100%;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-    border: 1px solid var(--border-color);
-    display: flex;
-    gap: 20px;
-}
-
-.analysis-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-}
-
-.card-icon {
-    width: 60px;
-    height: 60px;
-    background: rgba(52, 152, 219, 0.1);
-    border-radius: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--accent-color);
-    font-size: 1.5rem;
-    flex-shrink: 0;
-}
-
-.card-content {
-    flex: 1;
-}
-
-.card-content h3 {
-    color: var(--primary-color);
-    font-weight: 600;
-    margin: 0 0 10px;
-    font-size: 1.2rem;
-}
-
-.card-content p {
-    color: var(--light-text);
-    margin-bottom: 15px;
-}
-
-.analysis-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.analysis-list li {
-    color: var(--text-color);
-    padding: 8px 0;
-    border-bottom: 1px solid var(--border-color);
-}
-
-.analysis-list li:last-child {
-    border-bottom: none;
-}
-
-/* Buttons */
-.btn {
-    padding: 12px 24px;
-    font-weight: 500;
-    border-radius: 10px;
-    transition: all 0.3s ease;
-}
-
-.btn-primary {
-    background: var(--accent-color);
-    border: none;
-    box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
-}
-
-.btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
-}
-
-.btn-outline-primary {
-    border: 2px solid var(--accent-color);
-}
-
-.btn-outline-primary:hover {
-    background: var(--accent-color);
-    transform: translateY(-2px);
-}
-
-/* Responsive Design */
 @media (max-width: 992px) {
-    .analysis-header {
-        flex-direction: column;
-        gap: 15px;
-        text-align: center;
-    }
-
-    .chart-header {
-        flex-direction: column;
-        gap: 15px;
-        text-align: center;
-    }
-
-    .chart-section {
-        padding: 20px;
-    }
-
-    .chart-wrapper {
-        height: 500px;
-    }
-}
-
-@media (max-width: 768px) {
-    .chart-section {
-        padding: 15px;
-    }
-
-    .chart-wrapper {
-        height: 400px;
-    }
-}
-
-@media (max-width: 576px) {
-    .analysis-container {
-        padding: 15px;
-    }
-
-    .stat-card {
-        margin-bottom: 15px;
-    }
-
-    .analysis-card {
-        margin-bottom: 15px;
-    }
-
-    .chart-section {
-        padding: 10px;
-    }
-
     .chart-wrapper {
         height: 350px;
+    }
+}
+@media (max-width: 576px) {
+    .chart-wrapper {
+        height: 250px;
     }
 }
 </style>
@@ -430,34 +193,30 @@ function toggleFullscreen() {
     }
 }
 
-// Ensure chart is responsive
-window.addEventListener('resize', function() {
-    const chart = document.querySelector('.js-plotly-plot');
+// Resize support
+window.addEventListener('resize', function () {
+    const chart = document.querySelector('#stock-chart .js-plotly-plot');
     if (chart) {
         Plotly.Plots.resize(chart);
     }
 });
 
-// Initialize chart with proper sizing
-document.addEventListener('DOMContentLoaded', function() {
-    const chart = document.querySelector('.js-plotly-plot');
+document.addEventListener('DOMContentLoaded', function () {
+    const chart = document.querySelector('#stock-chart .js-plotly-plot');
     if (chart) {
         Plotly.Plots.resize(chart);
     }
 });
 
-// Update chart size when container size changes
 const resizeObserver = new ResizeObserver(entries => {
-    const chart = document.querySelector('.js-plotly-plot');
+    const chart = document.querySelector('#stock-chart .js-plotly-plot');
     if (chart) {
         Plotly.Plots.resize(chart);
     }
 });
-
-// Observe chart container for size changes
-const chartContainer = document.querySelector('.chart-container');
+const chartContainer = document.querySelector('#stock-chart');
 if (chartContainer) {
     resizeObserver.observe(chartContainer);
 }
 </script>
-{% endblock %} 
+{% endblock %}
